@@ -6,7 +6,7 @@ on:
   workflow_dispatch:  # Allows manual trigger
 
 permissions:
-  contents: write  #  Allows GitHub Actions to push updates
+  contents: write  # Allows GitHub Actions to push updates
 
 jobs:
   update-readme:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}  #  Use Personal Access Token
+          token: ${{ secrets.PAT_TOKEN }}  # Use Personal Access Token
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,15 +25,9 @@ jobs:
       - name: Run uptime script
         run: node update-readme.js
 
-      - name: Handle unstaged changes before pulling
-        run: |
-          git add README.md
-          git diff --cached --exit-code || git commit -m "Temporary commit to resolve unstaged changes"
-          git pull --rebase
-
       - name: Commit and push if changed
         run: |
-          git config --global user.name "ShoreNexx"
-          git config --global user.email "shorenex12@gmail.com"
+          git config --global user.name "ShoreNexx"  # GitHub username
+          git config --global user.email "186189496+ShoreNexx@users.noreply.github.com"  # GitHub-provided noreply email
           git add README.md
           git diff --exit-code || (git commit -m "Updated uptime in README" && git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/YOUR_USERNAME/YOUR_REPO.git main)
