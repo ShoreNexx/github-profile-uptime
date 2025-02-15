@@ -33,7 +33,7 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-           git config --global user.name "ShoreNexx"
+          git config --global user.name "ShoreNexx"
           git config --global user.email "shorenex12@gmail.com"
           git add README.md
           git diff --exit-code || (git commit -m "Updated uptime in README" && git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/YOUR_USERNAME/YOUR_REPO.git main)
