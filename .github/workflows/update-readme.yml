@@ -2,7 +2,7 @@ name: Update README with Uptime
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Runs daily at 12:00:00 AM UTC
+    - cron: "0 0 * * *"  # Runs daily at 12:00:05 AM UTC
   workflow_dispatch:  # Allows manual trigger
 
 permissions:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}  # Use Personal Access Token
+          token: ${{ secrets.PAT_TOKEN }}  # Use Personal Access Token (PAT)
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,9 +25,13 @@ jobs:
       - name: Run uptime script
         run: node update-readme.js
 
-      - name: Commit and push if changed
+      - name: Debug changes before committing
         run: |
-          git config --global user.name "ShoreNexx"  # GitHub username
-          git config --global user.email "186189496+ShoreNexx@users.noreply.github.com"  # GitHub-provided noreply email
+          git status
+          git diff README.md || echo "No visible changes detected"
+
+      - name: Force commit even if no changes detected
+        run: |
           git add README.md
+          git commit --allow-empty -m "Updated uptime in README (forced commit)"
           git diff --exit-code || (git commit -m "Updated uptime in README" && git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/ShoreNexx/github-profile-uptime.git main)
