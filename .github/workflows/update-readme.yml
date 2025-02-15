@@ -1,30 +1,24 @@
-
-name: Update README with Uptime #name
+name: Update README with Uptime
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Runs daily at 12:00 AM UTC
-  workflow_dispatch: # Allows manual trigger
-  
+    - cron: "0 0 * * *"  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual trigger
+
 permissions:
-  contents: write
-  
+  contents: write  # Allow GitHub Actions to push changes
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js 18
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
-
-      - name: Delay for 5 seconds
-        run: sleep 5  # 5 sec delay befor executing the script 
 
       - name: Run uptime script
         run: node update-readme.js
@@ -34,6 +28,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git diff --quiet && exit 0  # Exit if no changes
+          git diff --quiet && echo "⚡ No changes detected" && exit 0
           git commit -m "Updated uptime in README"
-          git push origin main
+          git push
