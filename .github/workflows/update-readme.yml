@@ -30,4 +30,4 @@ jobs:
           git config --global user.name "ShoreNexx"  # GitHub username
           git config --global user.email "186189496+ShoreNexx@users.noreply.github.com"  # GitHub-provided noreply email
           git add README.md
-          git diff --exit-code || (git commit -m "Updated uptime in README" && git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/YOUR_USERNAME/YOUR_REPO.git main)
+          git diff --exit-code || (git commit -m "Updated uptime in README" && git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/ShoreNexx/github-profile-uptime.git main)
