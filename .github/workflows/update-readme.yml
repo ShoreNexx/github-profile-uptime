@@ -15,23 +15,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}  # Use Personal Access Token (PAT)
+          fetch-depth: 0  # Important for git history
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
 
+      - name: Install dependencies
+        run: npm install 
+
       - name: Run uptime script
         run: node update-readme.js
 
-      - name: Debug changes before committing
+      - name: Configure Git
         run: |
-          git status
-          git diff README.md || echo "No visible changes detected"
+          git config --global user.email "shorenex12@gmail.com"
+          git config --global user.name "ShoreNexx"
 
-      - name: Force commit even if no changes detected
+      - name: Commit and push changes
         run: |
           git add README.md
-          git commit --allow-empty -m "Updated uptime in README (forced commit)"
-          git diff --exit-code || (git commit -m "Updated uptime in README" && git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/ShoreNexx/github-profile-uptime.git main)
+          git commit -m "Update uptime in README" || echo "No changes to commit"
+          git push
