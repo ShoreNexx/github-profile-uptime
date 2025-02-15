@@ -10,12 +10,17 @@ const years = Math.floor(days / 365);
 const remainingDays = days % 365;
 
 // Read README
-let readme = fs.readFileSync("README.md", "utf8");
+const readmePath = "README.md";
+let readme = fs.readFileSync(readmePath, "utf8");
 
-// Replace the uptime line 
+
 const uptimeLine = `Uptime: ${years} years ${remainingDays} days`;
-readme = readme.replace(/Uptime: \d+ years \d+ days/, uptimeLine);
 
-// Write back to README
-fs.writeFileSync("README.md", readme);
-console.log("README updated successfully!");
+// Check if README already has the correct uptime
+if (!readme.includes(uptimeLine)) {
+    readme = readme.replace(/Uptime: \d+ years \d+ days/, uptimeLine);
+    fs.writeFileSync(readmePath, readme);
+    console.log("README updated successfully!");
+} else {
+    console.log("No changes needed. README is already up to date.");
+}
