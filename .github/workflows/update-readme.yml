@@ -2,7 +2,7 @@ name: Update README with Uptime
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Runs daily at 12:00:05 AM UTC
+    - cron: "0 0 * * *"  # Runs daily at 12:00:00 AM UTC
   workflow_dispatch:  # Allows manual trigger
 
 permissions:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}  #  Personal Access Token
+          token: ${{ secrets.PAT_TOKEN }}  # ✅ Use Personal Access Token
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,6 +24,12 @@ jobs:
 
       - name: Run uptime script
         run: node update-readme.js
+
+      - name: Handle unstaged changes before pulling
+        run: |
+          git add README.md
+          git diff --cached --exit-code || git commit -m "Temporary commit to resolve unstaged changes"
+          git pull --rebase
 
       - name: Commit and push if changed
         run: |
