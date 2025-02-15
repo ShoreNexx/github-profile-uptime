@@ -13,14 +13,15 @@ const remainingDays = days % 365;
 const readmePath = "README.md";
 let readme = fs.readFileSync(readmePath, "utf8");
 
-
+// New uptime line
 const uptimeLine = `Uptime: ${years} years ${remainingDays} days`;
 
 // Check if README already has the correct uptime
-if (!readme.includes(uptimeLine)) {
-    readme = readme.replace(/Uptime: \d+ years \d+ days/, uptimeLine);
+const uptimeRegex = /Uptime: \d+ years \d+ days/;
+if (!uptimeRegex.test(readme) || !readme.includes(uptimeLine)) {
+    readme = readme.replace(uptimeRegex, uptimeLine);
     fs.writeFileSync(readmePath, readme);
-    console.log("README updated successfully!");
+    console.log("✅ README updated successfully!");
 } else {
-    console.log("No changes needed. README is already up to date.");
+    console.log("⚡ No changes needed. README is already up to date.");
 }
