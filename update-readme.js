@@ -19,7 +19,7 @@ let readme = fs.readFileSync(readmePath, "utf8");
 const uptimeLine = `Uptime: ${years} years ${months} months ${remainingDays} days`;
 
 // Check if README already has the correct uptime
-const uptimeRegex = /Uptime: \d+ years \d+ months \d+ days/;
+const uptimeRegex = /Uptime: \d+ years (\d+ months )?(\d+ )?days/;
 if (!uptimeRegex.test(readme) || !readme.includes(uptimeLine)) {
     readme = readme.replace(uptimeRegex, uptimeLine);
     fs.writeFileSync(readmePath, readme);
