@@ -7,17 +7,19 @@ const diff = now - birthDate;
 
 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 const years = Math.floor(days / 365);
-const remainingDays = days % 365;
+const remainingDaysAfterYears = days % 365;
+const months = Math.floor(remainingDaysAfterYears / 30);
+const remainingDays = remainingDaysAfterYears % 30;
 
 // Read README
 const readmePath = "README.md";
 let readme = fs.readFileSync(readmePath, "utf8");
 
 // New uptime line
-const uptimeLine = `Uptime: ${years} years ${remainingDays} days`;
+const uptimeLine = `Uptime: ${years} years ${months} months ${remainingDays} days`;
 
 // Check if README already has the correct uptime
-const uptimeRegex = /Uptime: \d+ years \d+ days/;
+const uptimeRegex = /Uptime: \d+ years \d+ months \d+ days/;
 if (!uptimeRegex.test(readme) || !readme.includes(uptimeLine)) {
     readme = readme.replace(uptimeRegex, uptimeLine);
     fs.writeFileSync(readmePath, readme);
